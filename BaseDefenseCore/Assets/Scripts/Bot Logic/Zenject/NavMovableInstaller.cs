@@ -7,11 +7,16 @@ namespace BotLogic.Zenject
 {
     public class NavMovableInstaller: MonoInstaller
     {
+        [SerializeField] private bool IsDestinationMovable;
+        
         [SerializeField] private NavMeshAgent _navMeshAgent;
 
         public override void InstallBindings()
         {
-            var mService = new NavMovableService(_navMeshAgent);
+            MovableService mService = !IsDestinationMovable
+                ? new NavMovableService(_navMeshAgent)
+                : new DestinationMovableService(_navMeshAgent);
+
             Container.Bind<MovableService>().FromInstance(mService).AsSingle().NonLazy();
         }
     }

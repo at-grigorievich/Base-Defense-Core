@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Enemy Bot Animator
+  m_Controller: {fileID: 9100000, guid: 9444ff5a9a1265a42a6f47734917183b, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: -203655887218126122, guid: 143ff686c5863b84293cb9679bcb82ab, type: 3}
+    m_OverrideClip: {fileID: -203655887218126122, guid: 23d269f8a8a557645b8f5df9723a9dfb, type: 3}
+  - m_OriginalClip: {fileID: -203655887218126122, guid: 13337f501552bac459c861285c265a69, type: 3}
+    m_OverrideClip: {fileID: -203655887218126122, guid: 171f10688144380439b205a25556d695, type: 3}
+  - m_OriginalClip: {fileID: -203655887218126122, guid: 58bf3d84758aef74db37eefa3f68dd53, type: 3}
+    m_OverrideClip: {fileID: -203655887218126122, guid: fcce30499b605884981fbd00d76b06c2, type: 3}
