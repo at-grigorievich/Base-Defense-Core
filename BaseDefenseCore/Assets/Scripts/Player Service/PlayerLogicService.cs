@@ -10,6 +10,7 @@ using Zenject;
 
 namespace PlayerService
 {
+    [RequireComponent(typeof(Collider))]
     public class PlayerLogicService : MonoBehaviour
     {
         [SerializeField] private CinemachineVirtualCamera _camera;

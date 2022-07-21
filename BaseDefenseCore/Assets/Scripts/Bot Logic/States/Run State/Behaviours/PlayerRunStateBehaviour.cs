@@ -23,7 +23,10 @@ namespace BotLogic.States
             _smoothing = smoothing;
         }
         
-        public override void Enter() => _agent.AnimatorService.AnimateRun();
+        public override void Enter()
+        {
+            _agent.AnimatorService.AnimateRun();
+        }
 
         public override void Execute()
         {

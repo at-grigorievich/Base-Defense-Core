@@ -1002,7 +1002,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 814115117}
-  m_Layer: 0
+  - component: {fileID: 814115118}
+  - component: {fileID: 814115119}
+  m_Layer: 8
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1030,6 +1032,31 @@ Transform:
   m_Father: {fileID: 1935149250}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &814115118
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 814115116}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 16.554882, y: 5.266409, z: 7.9089365}
+  m_Center: {x: 0.101530075, y: 2.5443835, z: -4.279597}
+--- !u!114 &814115119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 814115116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3f06ab1fe6248a89cd477ee664c37d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &840356806
 GameObject:
   m_ObjectHideFlags: 0
@@ -1962,7 +1989,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 247
   m_UseGeometry: 1
   m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1
@@ -2190,7 +2217,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.6084906, g: 0.7607442, b: 1, a: 0}
+  m_BackGroundColor: {r: 0.3529412, g: 0.6901961, b: 1, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

@@ -24,5 +24,10 @@ namespace BotLogic.Moving
         {
             _navAgent.updateRotation = true;
         }
+
+        public override void SetActiveMove(bool isStop)
+        {
+            _navAgent.isStopped = isStop;
+        }
     }
 }

@@ -2,12 +2,16 @@
 using BotLogic.States;
 using InputService;
 using LevelControlLogic;
+using UnityEngine;
 using Zenject;
 
 namespace BotLogic
 {
-    public class PlayerBotLogicService: BotLogicService
+    public class PlayerBotLogicService: BotLogicService, ITargetable
     {
+        public bool IsTargetAvailable { get; private set; }
+        public Vector3 TargetPosition => CurrentPosition;
+        
         [Inject]
         private void Constructor(IGameStatusListener status,PlayerInputService _input)
         {
@@ -20,5 +24,7 @@ namespace BotLogic
             
             status.OnGameStart += InitBot;
         }
+
+        public void SetTargetAvailable(bool isAvailable) => IsTargetAvailable = isAvailable;
     }
 }

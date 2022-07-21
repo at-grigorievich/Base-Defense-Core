@@ -18,6 +18,8 @@ namespace BotLogic.States
         {
             _agent.AnimatorService.AnimateRun();
             _targetPosition = GenerateTargetPosition();
+            
+            _agent.MovableService.SetActiveMove(false);
         }
 
         public override void Execute()
@@ -27,10 +29,7 @@ namespace BotLogic.States
                 _agent.MovableService.Move(_targetPosition);
                 _agent.MovableService.Rotate(_targetPosition,0f);
             }
-            else
-            {
-                _stateSwitcher.StateSwitcher<WaitBotState>();
-            }
+            else _stateSwitcher.StateSwitcher<WaitBotState>();
         }
 
 

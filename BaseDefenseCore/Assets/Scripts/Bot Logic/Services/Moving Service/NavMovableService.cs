@@ -23,6 +23,7 @@ namespace BotLogic.Moving
             Vector3 resDirection = direction * _navAgent.speed * Time.deltaTime;
             _navAgent.Move(resDirection);
         }
+        
         public override void Rotate(Vector3 direction, float smoothTime)
         {
             bool isNeedRotate = Vector3.Distance(direction, Vector3.zero) >= Mathf.Epsilon;
