@@ -40,6 +40,8 @@ namespace BotLogic.States
         {
             if (!_targetable.IsTargetAvailable)
             {
+                _attackService.OnEndAttack -= Attack;
+                
                 _resetRunBehaviour?.Invoke();
                 _agent.MovableService.SetActiveMove(true);
                 _stateSwitcher.StateSwitcher<WaitBotState>();

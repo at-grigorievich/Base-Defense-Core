@@ -5,6 +5,7 @@ using BotLogic.Data;
 using Cinemachine;
 using InputService;
 using LevelControlLogic;
+using UI;
 using UnityEngine;
 using Zenject;
 
@@ -21,6 +22,8 @@ namespace PlayerService
         [Inject] private IGameStatusHandler _gameStatusHandler;
         [Inject] private PlayerInputService _inputService;
 
+        [Inject(Id = "Respawn-Panel")] private CallbackPanel _panel;
+        
         private PlayerBotSpawnerPoint _spawnerPoint;
         private PlayerBotLogicService _playerBot;
 
@@ -28,11 +31,14 @@ namespace PlayerService
         private void Constructor(BotLogicService.Factory factory)
         {
             _spawnerPoint = new PlayerBotSpawnerPoint(_playerBotSpawnPoint, factory);
+            
+            _panel.AddCallback(RespawnPlayerBot);
         }
         
         private IEnumerator Start()
         {
             _playerBot = _spawnerPoint.DoSpawn(_playerBotData.GetBot(BotType.PlayerBot));
+            _playerBot.OnDieInPlace += OnDiePlayerBot;
             
             yield return null;
             
@@ -42,6 +48,22 @@ namespace PlayerService
             _gameStatusHandler.DoStartGame();
         }
 
+        private void OnDiePlayerBot(object sender, Vector3 e)
+        {
+            if (ReferenceEquals(_playerBot, sender))
+            {
+                Time.timeScale = .1f;
+                _panel.ShowPanel();
+            }
+        }
+
+        private void RespawnPlayerBot()
+        {
+            Time.timeScale = 1f;
+            _spawnerPoint.DoPlace(_playerBot.transform);
+            _playerBot.InitBot();
+        }
+        
         private void SetupCinemachine() => _camera.Follow = _playerBot.transform;
     }
     
@@ -59,17 +81,22 @@ namespace PlayerService
         public PlayerBotLogicService DoSpawn(BotLogicService botPrefab)
         {
             var bot = _factory.Create(botPrefab);
-            bot.transform.position = _spawnPoint.position;
-
-            Vector3 rot = bot.transform.eulerAngles;
-            rot.y = _spawnPoint.eulerAngles.y;
             
-            bot.transform.rotation = Quaternion.Euler(rot);
+            DoPlace(bot.transform);
 
             if (bot is PlayerBotLogicService playerBot)
                 return playerBot;
 
             throw new ArgumentException("prefab isnt Player Bot !");
+        }
+
+        public void DoPlace(Transform transform)
+        {
+            transform.position = _spawnPoint.position;
+            Vector3 rot = transform.transform.eulerAngles;
+            rot.y = _spawnPoint.eulerAngles.y;
+
+            transform.rotation = Quaternion.Euler(rot);
         }
     }
 }
