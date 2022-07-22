@@ -35,7 +35,7 @@ namespace BotLogic
         private new void Update()
         {
             base.Update();
-
+            
             if (IsTargetAvailable)
             {
                 AttackService.TryAttack();

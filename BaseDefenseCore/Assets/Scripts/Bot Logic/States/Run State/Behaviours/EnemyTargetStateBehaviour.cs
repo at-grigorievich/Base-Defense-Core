@@ -33,20 +33,13 @@ namespace BotLogic.States
 
         public override void Exit()
         {
-            //_attackService.OnEndAttack -= Attack;
+            _attackService.OnEndAttack -= Attack;
         }
-
+        
         public override void Execute()
         {
-            if (!_targetable.IsTargetAvailable)
-            {
-                _attackService.OnEndAttack -= Attack;
-                
-                _resetRunBehaviour?.Invoke();
-                _agent.MovableService.SetActiveMove(true);
-                _stateSwitcher.StateSwitcher<WaitBotState>();
+            if (!CheckToTargetAvailable())
                 return;
-            }
             
             var target = _targetable.TargetPosition;
             target.y = _agent.CurrentPosition.y;
@@ -72,8 +65,26 @@ namespace BotLogic.States
         {
             if (_targetable is IDamageable damageable)
             {
-                _attackService.AddDamage(damageable);
+                if (CheckToTargetAvailable())
+                {
+                    _attackService.AddDamage(damageable);
+                }
             }
+        }
+
+        private bool CheckToTargetAvailable()
+        {
+            if (!_targetable.IsTargetAvailable)
+            {
+                _stateSwitcher.StateSwitcher<WaitBotState>();
+                
+                _resetRunBehaviour?.Invoke();
+                _agent.MovableService.SetActiveMove(true);
+                
+                return false;
+            }
+
+            return true;
         }
     }
 }

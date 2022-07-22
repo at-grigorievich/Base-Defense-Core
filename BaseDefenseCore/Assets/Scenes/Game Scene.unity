@@ -171,7 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _botPrefabData: {fileID: 11400000, guid: a9858c374538a914ead636c80a050c90, type: 2}
-  _spawnObjectCount: 12
+  _spawnObjectCount: 1
   _spawnCenter: {fileID: 418431202}
   _spawnRadius: 1
 --- !u!1 &80230263

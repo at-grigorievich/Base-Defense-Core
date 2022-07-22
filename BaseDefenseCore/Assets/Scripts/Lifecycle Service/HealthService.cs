@@ -7,6 +7,7 @@ namespace LifecycleService
         private readonly int _defaultHealth;
         private int _currentHealth;
 
+        public int DebugHealth => _currentHealth;
         public bool IsHealthEnd => _currentHealth <= 0;
         
         public HealthService(HealthData data)
