@@ -8,7 +8,7 @@ namespace UI.Zenject
     {
         [SerializeField] private Canvas _canvas;
         [SerializeField] private Button _button;
-
+        
         public override void InstallBindings()
         {
             CallbackPanel rPanel = new CallbackPanel(_canvas, _button);

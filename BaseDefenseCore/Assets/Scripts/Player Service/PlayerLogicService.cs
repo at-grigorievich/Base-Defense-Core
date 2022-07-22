@@ -56,7 +56,6 @@ namespace PlayerService
                 _panel.ShowPanel();
             }
         }
-
         private void RespawnPlayerBot()
         {
             Time.timeScale = 1f;

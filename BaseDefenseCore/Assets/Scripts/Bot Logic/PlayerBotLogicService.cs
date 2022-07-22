@@ -30,10 +30,8 @@ namespace BotLogic
             status.OnGameStart += InitBot;
         }
         
-        private void Awake()
-        {
-            _enemyTracker = new EnemyTrackerService();
-        }
+        private void Awake() => _enemyTracker = new EnemyTrackerService();
+        
         private new void Update()
         {
             base.Update();
@@ -50,6 +48,7 @@ namespace BotLogic
             if(other.TryGetComponent(out EnemyBotLogicService enemy))
                 AddEnemy(enemy);
         }
+        
         private void OnTriggerExit(Collider other)
         {
             if(other.TryGetComponent(out EnemyBotLogicService enemy))

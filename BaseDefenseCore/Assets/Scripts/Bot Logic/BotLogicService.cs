@@ -2,7 +2,6 @@
 using ATGStateMachine;
 using BotLogic.Moving;
 using BotLogic.Services.Animator;
-using BotLogic.States;
 using FightService;
 using LifecycleService;
 using UnityEngine;
@@ -85,7 +84,7 @@ namespace BotLogic
         }
         
         
-        //Animator Event
+        // Animator Event
         public virtual void OnAttackEnd() => AttackService.EndAttack();
 
         public class Factory: PlaceholderFactory<UnityEngine.Object,BotLogicService> {}
