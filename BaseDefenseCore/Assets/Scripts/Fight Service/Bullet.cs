@@ -1,4 +1,5 @@
 ﻿using System;
+using LifecycleService;
 using UnityEngine;
 
 namespace FightService
@@ -27,6 +28,9 @@ namespace FightService
     {
         [SerializeField] private float _speed;
 
+        private Action<Collision> _collisionHit;
+        private Action<IDamageable> _onShootCollision;
+        
         private Transform _tr;
         private Rigidbody _rb;
 
@@ -36,12 +40,15 @@ namespace FightService
             _rb = GetComponent<Rigidbody>();
             _rb.isKinematic = true;
         }
-        
+
+        public void Init(Action<IDamageable> callback) => _onShootCollision = callback;
         
         public void ShootToTarget(Transform target)
         {
             if(target == null)
                 return;
+
+            _collisionHit = DoDamage;
             
             _tr.SetParent(null);
             _tr.LookAt(target);
@@ -52,12 +59,26 @@ namespace FightService
             _rb.AddForce(direction*_speed,ForceMode.Impulse);
         }
 
-        
-        [ContextMenu("Test Shooting")]
-        public void MoveToTarget()
+        private void OnCollisionEnter(Collision collision)
         {
-            _rb.isKinematic = false;
-            _rb.AddForce(transform.TransformDirection(Vector3.forward)*_speed,ForceMode.Impulse);
+            _collisionHit?.Invoke(collision);
+        }
+
+
+
+        private void DoDamage(Collision collision)
+        {
+            _collisionHit = null;
+            
+            Transform p = collision.transform.parent;
+
+            if(p == null)
+                return;
+
+            if (p.TryGetComponent(out IDamageable damageable))
+            {
+                _onShootCollision?.Invoke(damageable);
+            }
         }
     }
 }

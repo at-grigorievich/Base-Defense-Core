@@ -66,6 +66,14 @@ namespace BotLogic
         public Vector3? FindNearby(Vector3 center, float maxDistance) =>
             IsTargetAvailable ? _enemyTracker.FindNearby(center, maxDistance) : null;
 
+        protected override void DieBot()
+        {
+            StateSwitcher<IdleBotState>();
+            SetTargetAvailable(false);
+            
+            base.DieBot();
+        }
+        
         
         public void SetTargetAvailable(bool isAvailable)
         {

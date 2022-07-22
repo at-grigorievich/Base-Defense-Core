@@ -55,5 +55,12 @@ namespace BotLogic
             _runState.UpdateStatementBehaviour(_defaultRunBeh);
             _targetCache = null;
         }
+
+        protected override void DieBot()
+        {
+            StateSwitcher<WaitBotState>();
+            ResetDefaultRunBehaviour();
+            base.DieBot();
+        }
     }
 }

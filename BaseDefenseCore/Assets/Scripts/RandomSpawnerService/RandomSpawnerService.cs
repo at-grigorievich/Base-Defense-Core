@@ -55,9 +55,24 @@ namespace RandomSpawnerService
                     if (instance is EnemyBotLogicService enemyBot)
                     {
                         EnemyBots[i] = enemyBot;
-                        enemyBot.InitEnemy(GetRandomPosition);
+                        SetupBot(enemyBot);
+                        enemyBot.OnDieInPlace += OnBotDie;
                     }
                     yield return null;
+            }
+        }
+
+        private void SetupBot(EnemyBotLogicService enemyBot)
+        {
+            enemyBot.InitEnemy(GetRandomPosition);
+        }
+
+        private void OnBotDie(object sender, Vector3 e)
+        {
+            if (sender is EnemyBotLogicService enemyBot)
+            {
+                PlaceOn(enemyBot.transform);
+                enemyBot.InitBot();
             }
         }
 

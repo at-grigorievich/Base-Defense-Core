@@ -2,7 +2,9 @@
 using ATGStateMachine;
 using BotLogic.Moving;
 using BotLogic.Services.Animator;
+using BotLogic.States;
 using FightService;
+using LifecycleService;
 using UnityEngine;
 using Zenject;
 
@@ -22,7 +24,7 @@ namespace BotLogic
         }
     }
     
-    public class BotLogicService : StatementBehaviour<IAgent>,IAgent
+    public class BotLogicService : StatementBehaviour<IAgent>,IAgent,IDamageable
     {
         [Range(0, 0.99f)] [SerializeField] protected float _smoothing;
         
@@ -30,15 +32,17 @@ namespace BotLogic
         
         [Inject] public BotAnimatorService AnimatorService { get; private set; }
         [Inject] public MovableService MovableService { get; private set; }
-        
-        [Inject] public AttackService AttackService { get; private set; }
-        
+        [Inject] protected AttackService AttackService { get; private set; }
+        [Inject] protected HealthService HealthService { get; private set; }
+       
         public Vector3 CurrentPosition => transform.position;         
+        
+        public event EventHandler<Vector3> OnDieInPlace;
+        
         
         protected void Start()
         {
-            _botRenderer.SetRendererVisible(false);
-            
+            gameObject.SetActive(false);
             MovableService.SetMovableActive(false);
         }
         protected void Update()
@@ -48,21 +52,41 @@ namespace BotLogic
             AttackService.UpdateReloading();
         }
 
-        protected void InitBot()
+        public void InitBot()
         {
-            _botRenderer.SetRendererVisible(true);
-            
+            gameObject.SetActive(true);
             MovableService.SetMovableActive(true);
+            ResetHealth();
             
             AttackService.OnAttack += AnimatorService.AnimateAttack;
             
             InitStartState();
             OnState();
         }
+
+        protected virtual void DieBot()
+        {
+            gameObject.SetActive(false);
+            MovableService.SetMovableActive(false);
+            
+            AttackService.OnAttack -= AnimatorService.AnimateAttack;
+            
+            OnDieInPlace?.Invoke(this,transform.position);
+        }
+
+        public void ResetHealth() => HealthService.ResetHealth();
+        public void TakeDamage(int damageCount)
+        {
+            HealthService.RemoveHealth(damageCount);
+            if (HealthService.IsHealthEnd)
+            {
+                DieBot();
+            }
+        }
+        
         
         //Animator Event
         public virtual void OnAttackEnd() => AttackService.EndAttack();
-
 
         public class Factory: PlaceholderFactory<UnityEngine.Object,BotLogicService> {}
     }

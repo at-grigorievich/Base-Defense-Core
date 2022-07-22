@@ -1,5 +1,7 @@
 ﻿using System;
 using FightService;
+using LifecycleService;
+using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
 namespace BotLogic.States
@@ -17,7 +19,9 @@ namespace BotLogic.States
             AttackService attackService)
         {
             _targetable = target;
+            
             _attackService = attackService;
+            _attackService.OnEndAttack += Attack;
             
             _resetRunBehaviour = resetCallback;
         }
@@ -25,6 +29,11 @@ namespace BotLogic.States
         public override void Enter()
         {
             _agent.AnimatorService.AnimateRun();
+        }
+
+        public override void Exit()
+        {
+            //_attackService.OnEndAttack -= Attack;
         }
 
         public override void Execute()
@@ -54,6 +63,14 @@ namespace BotLogic.States
                 _agent.MovableService.SetActiveMove(true);
                 
                 _attackService.TryAttack();
+            }
+        }
+
+        private void Attack()
+        {
+            if (_targetable is IDamageable damageable)
+            {
+                _attackService.AddDamage(damageable);
             }
         }
     }

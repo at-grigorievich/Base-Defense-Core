@@ -65,6 +65,7 @@ namespace FightService
         {
             _bulletInstance = GameObject.Instantiate(_gunData.Ammunition);
             _bulletOptions.SetupBulletInLocalSpace(_bulletInstance);
+            _bulletInstance.Init(AddDamage);
         }
     }
 }
