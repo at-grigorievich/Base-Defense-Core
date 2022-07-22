@@ -2,6 +2,7 @@
 using ATGStateMachine;
 using BotLogic.Moving;
 using BotLogic.Services.Animator;
+using FightService;
 using UnityEngine;
 using Zenject;
 
@@ -29,27 +30,40 @@ namespace BotLogic
         
         [Inject] public BotAnimatorService AnimatorService { get; private set; }
         [Inject] public MovableService MovableService { get; private set; }
-
+        
+        [Inject] public AttackService AttackService { get; private set; }
+        
         public Vector3 CurrentPosition => transform.position;         
         
-        
-        private void Update() => OnExecute();
-
         protected void Start()
         {
-            MovableService.SetMovableActive(false);
             _botRenderer.SetRendererVisible(false);
+            
+            MovableService.SetMovableActive(false);
+        }
+        protected void Update()
+        {
+            OnExecute();
+            
+            AttackService.UpdateReloading();
         }
 
         protected void InitBot()
         {
-            MovableService.SetMovableActive(true);
             _botRenderer.SetRendererVisible(true);
+            
+            MovableService.SetMovableActive(true);
+            
+            AttackService.OnAttack += AnimatorService.AnimateAttack;
             
             InitStartState();
             OnState();
         }
         
+        //Animator Event
+        public virtual void OnAttackEnd() => AttackService.EndAttack();
+
+
         public class Factory: PlaceholderFactory<UnityEngine.Object,BotLogicService> {}
     }
 }

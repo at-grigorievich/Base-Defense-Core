@@ -1,5 +1,4 @@
-﻿using BotLogic.Moving;
-using InputService;
+﻿using InputService;
 using UnityEngine;
 
 namespace BotLogic.States

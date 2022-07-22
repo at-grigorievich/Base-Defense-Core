@@ -35,7 +35,6 @@ namespace BotLogic
                 }
             }
         }
-
         
         private void StartTargetFollowing(ITargetable targetObj)
         {
@@ -44,7 +43,7 @@ namespace BotLogic
                 _targetCache = targetObj;
                 
                 var targetBehaviour = new EnemyTargetStateBehaviour(targetObj, 
-                    ResetDefaultRunBehaviour);
+                    ResetDefaultRunBehaviour,AttackService);
                 _runState.UpdateStatementBehaviour(targetBehaviour);
                 
                 StateSwitcher<RunBotState>();

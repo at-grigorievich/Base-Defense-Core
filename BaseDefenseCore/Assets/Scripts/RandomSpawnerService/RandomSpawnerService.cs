@@ -19,11 +19,11 @@ namespace RandomSpawnerService
 
         [Inject] private BotLogicService.Factory _factory;
         
-        private EnemyBotLogicService[] _enemyBots;
+        public EnemyBotLogicService[] EnemyBots { get; private set; }
 
         private Vector2 _xSize;
         private Vector2 _zSize;
-        
+
         private void Start()
         {
             var transform1 = _spawnCenter.transform;
@@ -42,10 +42,10 @@ namespace RandomSpawnerService
 
         private IEnumerator CreateBots()
         {
-            _enemyBots = new EnemyBotLogicService[_spawnObjectCount];
+            EnemyBots = new EnemyBotLogicService[_spawnObjectCount];
 
             var ePrefab = _botPrefabData.GetBot(BotType.EnemyBot);
-            for (int i = 0; i < _enemyBots.Length; i++)
+            for (int i = 0; i < EnemyBots.Length; i++)
             {
                     var instance = _factory.Create(ePrefab);
                     
@@ -54,7 +54,7 @@ namespace RandomSpawnerService
                     
                     if (instance is EnemyBotLogicService enemyBot)
                     {
-                        _enemyBots[i] = enemyBot;
+                        EnemyBots[i] = enemyBot;
                         enemyBot.InitEnemy(GetRandomPosition);
                     }
                     yield return null;
