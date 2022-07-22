@@ -1,4 +1,5 @@
 ﻿using System;
+using BonusItemService;
 using BotLogic.Data;
 using BotLogic.States;
 using InputService;
@@ -9,7 +10,7 @@ using Zenject;
 namespace BotLogic
 {
     public class PlayerBotLogicService: BotLogicService, 
-        ITargetable, IEnemyTracker
+        ITargetable, IEnemyTracker, IBonusDetector
     {
         private EnemyTrackerService _enemyTracker;
         
@@ -31,7 +32,6 @@ namespace BotLogic
         }
         
         private void Awake() => _enemyTracker = new EnemyTrackerService();
-        
         private new void Update()
         {
             base.Update();
@@ -41,8 +41,9 @@ namespace BotLogic
                 AttackService.TryAttack();
             }
         }
-
         
+
+        #region IEnemyTracker implementation
         private void OnTriggerEnter(Collider other)
         {
             if(other.TryGetComponent(out EnemyBotLogicService enemy))
@@ -64,7 +65,9 @@ namespace BotLogic
         
         public Vector3? FindNearby(Vector3 center, float maxDistance) =>
             IsTargetAvailable ? _enemyTracker.FindNearby(center, maxDistance) : null;
-
+        
+        #endregion
+        
         protected override void DieBot()
         {
             StateSwitcher<IdleBotState>();
@@ -72,7 +75,6 @@ namespace BotLogic
             
             base.DieBot();
         }
-        
         
         public void SetTargetAvailable(bool isAvailable)
         {

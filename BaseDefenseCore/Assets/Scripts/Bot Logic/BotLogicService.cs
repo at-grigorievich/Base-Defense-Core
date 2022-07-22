@@ -47,7 +47,6 @@ namespace BotLogic
         protected void Update()
         {
             OnExecute();
-            
             AttackService.UpdateReloading();
         }
 
@@ -73,6 +72,7 @@ namespace BotLogic
             OnDieInPlace?.Invoke(this,transform.position);
         }
 
+        #region IDamageable implementation
         public void ResetHealth() => HealthService.ResetHealth();
         public void TakeDamage(int damageCount)
         {
@@ -82,7 +82,7 @@ namespace BotLogic
                 DieBot();
             }
         }
-        
+        #endregion
         
         // Animator Event
         public virtual void OnAttackEnd() => AttackService.EndAttack();

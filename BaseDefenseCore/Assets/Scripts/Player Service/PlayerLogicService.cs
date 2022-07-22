@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using BonusItemService;
 using BotLogic;
 using BotLogic.Data;
 using Cinemachine;
@@ -48,21 +49,25 @@ namespace PlayerService
             _gameStatusHandler.DoStartGame();
         }
 
+        #region Respawning player bot
         private void OnDiePlayerBot(object sender, Vector3 e)
         {
             if (ReferenceEquals(_playerBot, sender))
             {
+                _inputService.SetInputEnable(false);
                 Time.timeScale = .1f;
                 _panel.ShowPanel();
             }
         }
         private void RespawnPlayerBot()
         {
+            _inputService.SetInputEnable(true);
             Time.timeScale = 1f;
             _spawnerPoint.DoPlace(_playerBot.transform);
             _playerBot.InitBot();
         }
-        
+        #endregion
+
         private void SetupCinemachine() => _camera.Follow = _playerBot.transform;
     }
     

@@ -18,6 +18,7 @@ namespace RandomSpawnerService
         [SerializeField] private float _spawnRadius;
 
         [Inject] private BotLogicService.Factory _factory;
+        [Inject] private BonusSpawnerService.BonusSpawnerService _bonusSpawner;
         
         public EnemyBotLogicService[] EnemyBots { get; private set; }
 
@@ -65,6 +66,7 @@ namespace RandomSpawnerService
         private void SetupBot(EnemyBotLogicService enemyBot)
         {
             enemyBot.InitEnemy(GetRandomPosition);
+            enemyBot.OnDieInPlace += _bonusSpawner.TrySpawnBonus;
         }
 
         private void OnBotDie(object sender, Vector3 e)
