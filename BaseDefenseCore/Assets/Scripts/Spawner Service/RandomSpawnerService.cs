@@ -78,7 +78,7 @@ namespace RandomSpawnerService
             }
         }
 
-        private void PlaceOnRandomCircle(Transform obj)
+        /*private void PlaceOnRandomCircle(Transform obj)
         {
             Vector2 rnd = Random.insideUnitCircle * _spawnRadius;
 
@@ -86,7 +86,7 @@ namespace RandomSpawnerService
 
             obj.transform.position = spawnPosition;
             obj.transform.eulerAngles = new Vector3(0f, Random.value * 360, 0f);
-        }
+        }*/
 
         private void PlaceOn(Transform obj)
         {

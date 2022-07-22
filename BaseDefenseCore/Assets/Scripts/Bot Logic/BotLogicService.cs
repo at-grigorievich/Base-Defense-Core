@@ -61,7 +61,6 @@ namespace BotLogic
             InitStartState();
             OnState();
         }
-
         protected virtual void DieBot()
         {
             gameObject.SetActive(false);
