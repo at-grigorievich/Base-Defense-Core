@@ -39,8 +39,7 @@ namespace FightService
         {
             if (_bulletInstance != null)
             {
-                _bulletInstance.InitTarget(TryRaycast() ?? _hitTarget);
-                _bulletInstance.Shoot();
+                _bulletInstance.ShootToTarget(TryRaycast() ?? _hitTarget);
                 CreateProjectile();
             }
             base.EndAttack();
@@ -61,7 +60,7 @@ namespace FightService
             return null;
         }
         
-        //TODO: Сhange to factory
+        //TODO: Сhange to pool
         private void CreateProjectile()
         {
             _bulletInstance = GameObject.Instantiate(_gunData.Ammunition);

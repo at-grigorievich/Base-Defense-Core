@@ -22,39 +22,40 @@ namespace FightService
         }
     }
     
-    [RequireComponent(typeof())]
+    [RequireComponent(typeof(Rigidbody))]
     public class Bullet : MonoBehaviour
     {
         [SerializeField] private float _speed;
-        
-        private Transform _target;
 
-        private Action _moveToTarget;
-        
-        private void Update()
+        private Rigidbody _rb;
+
+        private void Awake()
         {
-            _moveToTarget?.Invoke();
+            _rb = GetComponent<Rigidbody>();
+            _rb.isKinematic = true;
         }
-
-        public void InitTarget(Transform target) => _target = target;
-
-        public void Shoot()
+        
+        
+        public void ShootToTarget(Transform target)
         {
-            if(_target == null)
+            if(target == null)
                 return;
             
             transform.SetParent(null);
-            transform.LookAt(_target);
-            
-            _moveToTarget = MoveToTarget;
+            transform.LookAt(target);
+
+            _rb.isKinematic = false;
+
+            Vector3 direction = target.position - transform.position;
+            _rb.AddForce(direction*_speed,ForceMode.Impulse);
         }
 
-        private void MoveToTarget()
+        
+        [ContextMenu("Test Shooting")]
+        public void MoveToTarget()
         {
-            transform.Translate(Vector3.forward*_speed*Time.deltaTime);
-            //transform.position = Vector3.MoveTowards(transform.position,
-                //_target.position,
-                //_speed * Time.deltaTime);
+            _rb.isKinematic = false;
+            _rb.AddForce(transform.TransformDirection(Vector3.forward)*_speed,ForceMode.Impulse);
         }
     }
 }
