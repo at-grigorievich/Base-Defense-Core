@@ -27,10 +27,12 @@ namespace FightService
     {
         [SerializeField] private float _speed;
 
+        private Transform _tr;
         private Rigidbody _rb;
 
         private void Awake()
         {
+            _tr = transform;
             _rb = GetComponent<Rigidbody>();
             _rb.isKinematic = true;
         }
@@ -41,12 +43,12 @@ namespace FightService
             if(target == null)
                 return;
             
-            transform.SetParent(null);
-            transform.LookAt(target);
+            _tr.SetParent(null);
+            _tr.LookAt(target);
 
             _rb.isKinematic = false;
 
-            Vector3 direction = target.position - transform.position;
+            Vector3 direction = target.position - _tr.position;
             _rb.AddForce(direction*_speed,ForceMode.Impulse);
         }
 
