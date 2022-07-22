@@ -67,6 +67,8 @@ namespace PlayerService
         {
             _inputService.SetInputEnable(true);
             Time.timeScale = 1f;
+            
+            _bonusPresentor.ClearCurrentCount();
             _spawnerPoint.DoPlace(_playerBot.transform);
             _playerBot.InitBot();
         }
