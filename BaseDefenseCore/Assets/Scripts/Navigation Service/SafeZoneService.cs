@@ -1,6 +1,8 @@
 ﻿using System;
+using BonusItemService;
 using BotLogic;
 using UnityEngine;
+using Zenject;
 
 namespace Navigation
 {
@@ -8,9 +10,12 @@ namespace Navigation
     public class SafeZoneService : MonoBehaviour
     {
         private ITargetable _targetableCache;
+
+        [Inject] private BonusContainerPresenter _bonusPresenter;
         
         private void OnTriggerEnter(Collider other)
         {
+            _bonusPresenter.UpdateTotalCount();
             CheckToTarget(other,targetable => targetable.SetTargetAvailable(false));
         }
 

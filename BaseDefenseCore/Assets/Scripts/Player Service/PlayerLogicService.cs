@@ -23,6 +23,8 @@ namespace PlayerService
         [Inject] private IGameStatusHandler _gameStatusHandler;
         [Inject] private PlayerInputService _inputService;
 
+        [Inject] private BonusContainerPresenter _bonusPresentor;
+        
         [Inject(Id = "Respawn-Panel")] private CallbackPanel _panel;
         
         private PlayerBotSpawnerPoint _spawnerPoint;
@@ -56,6 +58,8 @@ namespace PlayerService
             {
                 _inputService.SetInputEnable(false);
                 Time.timeScale = .1f;
+                
+                _bonusPresentor.ClearCurrentCount();
                 _panel.ShowPanel();
             }
         }

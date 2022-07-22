@@ -1,5 +1,6 @@
 ﻿using BonusItemService;
 using UnityEngine;
+using Zenject;
 
 namespace BonusSpawnerService
 {
@@ -7,6 +8,8 @@ namespace BonusSpawnerService
     {
         [SerializeField] private BonusData _bonusData;
 
+        [Inject] private BonusContainerPresenter _bonusPresenter;
+        
         public void TrySpawnBonus(object sender, Vector3 targetPos)
         {
             float rnd = Random.value;
@@ -20,9 +23,6 @@ namespace BonusSpawnerService
             }
         }
 
-        private void OnDropBonus()
-        {
-            Debug.Log("adfafsaasf");
-        }
+        private void OnDropBonus() => _bonusPresenter.AddCurrentCount();
     }
 }
